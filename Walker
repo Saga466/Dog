@@ -1,0 +1,136 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Customer {
+public:
+    Customer(string name, string address, string phone) {
+        this->name = name;
+        this->address = address;
+        this->phone = phone;
+    }
+
+    string getName() {
+        return this->name;
+    }
+
+    string getAddress() {
+        return this->address;
+    }
+
+    string getPhone() {
+        return this->phone;
+    }
+
+private:
+    string name;
+    string address;
+    string phone;
+};
+
+class DogWalker {
+public:
+    DogWalker(string name, string phone, double hourlyRate) {
+        this->name = name;
+        this->phone = phone;
+        this->hourlyRate = hourlyRate;
+    }
+
+    string getName() {
+        return this->name;
+    }
+
+    string getPhone() {
+        return this->phone;
+    }
+
+    double getHourlyRate() {
+        return this->hourlyRate;
+    }
+
+private:
+    string name;
+    string phone;
+    double hourlyRate;
+};
+
+class Appointment {
+public:
+    Appointment(Customer customer, DogWalker dogWalker, string date, int duration) {
+        this->customer = customer;
+        this->dogWalker = dogWalker;
+        this->date = date;
+        this->duration = duration;
+    }
+
+    Customer getCustomer() {
+        return this->customer;
+    }
+
+    DogWalker getDogWalker() {
+        return this->dogWalker;
+    }
+
+    string getDate() {
+        return this->date;
+    }
+
+    int getDuration() {
+        return this->duration;
+    }
+
+private:
+    Customer customer;
+    DogWalker dogWalker;
+    string date;
+    int duration;
+};
+
+class DogWalkingService {
+public:
+    DogWalkingService() {
+        this->customers = {};
+        this->dogWalkers = {};
+        this->appointments = {};
+    }
+
+    void addCustomer(Customer customer) {
+        this->customers.push_back(customer);
+    }
+
+    void addDogWalker(DogWalker dogWalker) {
+        this->dogWalkers.push_back(dogWalker);
+    }
+
+    void requestAppointment(Customer customer, DogWalker dogWalker, string date, int duration) {
+        Appointment appointment = Appointment(customer, dogWalker, date, duration);
+        this->appointments.push_back(appointment);
+        cout << "Appointment requested for " << date << endl;
+    }
+
+    vector<Appointment> getAppointments() {
+        return this->appointments;
+    }
+
+private:
+    vector<Customer> customers;
+    vector<DogWalker> dogWalkers;
+    vector<Appointment> appointments;
+};
+
+int main() {
+    DogWalkingService dogWalkingService = DogWalkingService();
+    Customer customer1 = Customer("John Smith", "123 Main St", "555-1234");
+    dogWalkingService.addCustomer(customer1);
+    DogWalker dogWalker1 = DogWalker("Bob Johnson", "555-5678", 20.0);
+    dogWalkingService.addDogWalker(dogWalker1);
+    dogWalkingService.requestAppointment(customer1, dogWalker1, "2023-04-15", 1);
+    vector<Appointment> appointments = dogWalkingService.getAppointments();
+    cout << "Appointments:" << endl;
+    for (Appointment appointment : appointments) {
+        cout << appointment.getDate() << ": " << appointment.getCustomer().getName() << " - " << appointment.getDogWalker().getName() << endl;
+    }
+    return 0;
+}
